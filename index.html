@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gaza Legacy | Mira Portal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #000; color: white; 
+            font-family: 'Montserrat', sans-serif; 
+            overflow: hidden; height: 100dvh;
+        }
+
+        /* الخلفية المحدثة للانتقال */
+        .bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85)), url('bg.png');
+            background-size: cover; background-position: center;
+            filter: blur(15px); /* تبدأ مغبشة */
+            z-index: -1;
+            transition: filter 0.8s ease, transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform, filter;
+        }
+
+        /* حاوية المحتوى قابلة للاختفاء */
+        .container {
+            height: 100%; display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            width: 100%; padding: 20px;
+            transition: opacity 0.5s ease;
+        }
+
+        .mira-header {
+            font-family: 'Cinzel', serif; font-size: clamp(1.5rem, 8vw, 3rem); 
+            color: #ffd700; text-align: center;
+            letter-spacing: clamp(5px, 2vw, 12px); margin-bottom: 10px; 
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        .swiper { width: 100%; padding: 60px 0 !important; cursor: grab; }
+
+        .swiper-slide {
+            width: 260px; height: 360px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 20px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; padding: 25px;
+            transition: all 0.5s ease;
+            opacity: 0.2; transform: scale(0.85);
+        }
+
+        .swiper-slide-active {
+            opacity: 1; transform: scale(1.05);
+            border-color: #ffd700; background: rgba(255, 215, 0, 0.07);
+        }
+
+        .swiper-slide i { font-size: 3.5rem; color: #ffd700; margin-bottom: 20px; }
+        .swiper-slide h3 { font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin-bottom: 15px; }
+        .swiper-slide p { font-size: 0.8rem; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+        .nav-container { display: flex; gap: 25px; margin-top: 10px; }
+        .nav-btn {
+            width: 55px; height: 55px; border-radius: 50%;
+            border: 1px solid rgba(255, 215, 0, 0.3); color: #ffd700;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-layer" id="mainBg"></div>
+
+    <div class="container" id="contentUI">
+        <h1 class="mira-header">THANK YOU MIRA</h1>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" onclick="zoomTransition('injured.html')">
+                    <i class="fa-solid fa-crutch"></i>
+                    <h3>Injured</h3>
+                    <p>Your kindness healed the wounds of the brave.</p>
+                </div>
+                <div class="swiper-slide" onclick="zoomTransition('orphans.html')">
+                    <i class="fa-solid fa-child-reaching"></i>
+                    <h3>Orphans</h3>
+                    <p>A guardian angel for those who lost their light.</p>
+                </div>
+                <div class="swiper-slide" onclick="zoomTransition('shelter.html')">
+                    <i class="fa-solid fa-tent"></i>
+                    <h3>Shelter</h3>
+                    <p>Safety and warmth in the cold of displacement.</p>
+                </div>
+                <div class="swiper-slide" onclick="zoomTransition('food.html')">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                    <h3>Food Bags</h3>
+                    <p>Feeding the hungry and bringing dignity home.</p>
+                </div>
+                <div class="swiper-slide" onclick="zoomTransition('kids.html')">
+                    <i class="fa-solid fa-baby-carriage"></i>
+                    <h3>Babies</h3>
+                    <p>Milk and mercy for our smallest souls.</p>
+                </div>
+                <div class="swiper-slide" onclick="zoomTransition('money.html')">
+                    <i class="fa-solid fa-hand-holding-dollar"></i>
+                    <h3>Aid</h3>
+                    <p>A helping hand in the darkest of times.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-container">
+            <div class="nav-btn prev"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="nav-btn next"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 1, centeredSlides: true, loop: true,
+            spaceBetween: 20, grabCursor: true,
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 30 },
+                1024: { slidesPerView: 3, spaceBetween: 40 }
+            },
+            navigation: { nextEl: ".next", prevEl: ".prev" },
+            speed: 700,
+        });
+
+        // وظيفة الزوم الاحترافية
+        function zoomTransition(url) {
+            const bg = document.getElementById('mainBg');
+            const ui = document.getElementById('contentUI');
+
+            // 1. إخفاء الواجهة
+            ui.style.opacity = "0";
+            ui.style.pointerEvents = "none";
+
+            // 2. تصفية الصورة وعمل زوم عميق
+            bg.style.filter = "blur(0px) brightness(0.8)"; // إزالة التغبيش
+            bg.style.transform = "scale(2)"; // زوم للداخل
+
+            // 3. الانتقال
+            setTimeout(() => {
+                window.location.href = url;
+            }, 850);
+        }
+    </script>
+</body>
+</html>

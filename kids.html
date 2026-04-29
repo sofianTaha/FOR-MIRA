@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mira | Thank You</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; touch-action: none; }
+
+        .thank-you-img {
+            width: 85%; max-width: 450px; border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            animation: floatImg 4s infinite ease-in-out;
+        }
+        @keyframes floatImg { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .bottom-nav { position: fixed; bottom: 30px; display: flex; align-items: center; gap: 60px; z-index: 100; }
+        .home-btn { font-size: 2.2rem; color: #ffd700; text-decoration: none; cursor: pointer; }
+        
+        /* حل مشكلة القلب الجذري باستخدام SVG */
+        .heart-container {
+            width: 100px; height: 100px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        #fill-level { transition: height 0.1s linear; }
+        .particle-heart { position: absolute; color: #ff0000; pointer-events: none; z-index: 1000; }
+    </style>
+</head>
+<body>
+
+    <img src="hlmsg.png" class="thank-you-img">
+
+    <div class="bottom-nav">
+        <a href="index.html" class="home-btn"><i class="fa-solid fa-house"></i></a>
+        
+        <div class="heart-container" id="heartBtn">
+            <svg viewBox="0 0 32 32" width="80" height="80">
+                <defs>
+                    <clipPath id="heart-path">
+                        <path d="M16 28.5L14.1 26.75C7.4 20.7 3 16.7 3 11.75C3 7.75 6.15 4.65 10.15 4.65C12.45 4.65 14.65 5.7 16 7.35C17.35 5.7 19.55 4.65 21.85 4.65C25.85 4.65 29 7.75 29 11.75C29 16.7 24.6 20.7 17.9 26.75L16 28.5Z" />
+                    </clipPath>
+                </defs>
+                
+                <path d="M16 28.5L14.1 26.75C7.4 20.7 3 16.7 3 11.75C3 7.75 6.15 4.65 10.15 4.65C12.45 4.65 14.65 5.7 16 7.35C17.35 5.7 19.55 4.65 21.85 4.65C25.85 4.65 29 7.75 29 11.75C29 16.7 24.6 20.7 17.9 26.75L16 28.5Z" fill="#333" />
+                
+                <g clip-path="url(#heart-path)">
+                    <rect id="fill-rect" x="0" y="32" width="32" height="32" fill="#ff0000" />
+                </g>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        let fillY = 32; // يبدأ من الأسفل (خارج النطاق)
+        let interval;
+        const fillRect = document.getElementById('fill-rect');
+        const heartBtn = document.getElementById('heartBtn');
+
+        function startFilling() {
+            interval = setInterval(() => {
+                if (fillY > 0) {
+                    fillY -= 0.6;
+                    fillRect.setAttribute('y', fillY);
+                } else {
+                    clearInterval(interval);
+                    celebrate();
+                }
+            }, 30);
+        }
+
+        function stopFilling() {
+            clearInterval(interval);
+            if (fillY > 0) {
+                fillY = 32;
+                fillRect.setAttribute('y', 32);
+            }
+        }
+
+        heartBtn.addEventListener('mousedown', startFilling);
+        heartBtn.addEventListener('mouseup', stopFilling);
+        heartBtn.addEventListener('touchstart', (e) => { e.preventDefault(); startFilling(); });
+        heartBtn.addEventListener('touchend', stopFilling);
+
+        function celebrate() {
+            gsap.to(heartBtn, { scale: 1.4, duration: 0.2, yoyo: true, repeat: 1 });
+            for (let i = 0; i < 50; i++) {
+                const h = document.createElement('i');
+                h.className = 'fa-solid fa-heart particle-heart';
+                document.body.appendChild(h);
+                gsap.set(h, { x: window.innerWidth/2, y: window.innerHeight-100, opacity: 1, fontSize: gsap.utils.random(15, 35) });
+                gsap.to(h, {
+                    x: gsap.utils.random(0, window.innerWidth),
+                    y: gsap.utils.random(0, window.innerHeight),
+                    opacity: 0, duration: 2.5, onComplete: () => h.remove()
+                });
+            }
+        }
+    </script>
+</body>
+</html>
